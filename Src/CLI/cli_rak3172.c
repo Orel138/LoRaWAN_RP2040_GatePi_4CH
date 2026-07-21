@@ -110,7 +110,7 @@ static void prvRakJoinCommand(ConsoleIO_t * const pxConsoleIO,
 {
     pxConsoleIO->print("Joining LoRaWAN network...\n");
     pxConsoleIO->print("This may take up to 30 seconds...\n");
-    
+
     if(RAK3172_Join(30000) == pdPASS)
     {
         pxConsoleIO->print("Successfully joined LoRaWAN network!\n");

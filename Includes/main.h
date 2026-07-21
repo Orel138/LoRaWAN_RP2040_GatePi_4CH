@@ -24,4 +24,8 @@
 /* Number of join attempts performed at start-up before giving up */
 #define LORAWAN_JOIN_ATTEMPTS   3U
 
+/* Interval (seconds) of the relay-status uplink routine started automatically
+ * once the network is joined. Equivalent to "relay-report on 300". */
+#define LORAWAN_REPORT_INTERVAL_S   300U
+
 #endif /* MAIN_H */

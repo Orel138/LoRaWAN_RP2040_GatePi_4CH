@@ -47,8 +47,9 @@ extern const CLI_Command_Definition_t xCommandDef_reset;
 extern const CLI_Command_Definition_t xCommandDef_clear;
 extern const CLI_Command_Definition_t xCommandDef_uptime;
 
-/* Relay command */
+/* Relay commands */
 extern const CLI_Command_Definition_t xCommandDef_relay;
+extern const CLI_Command_Definition_t xCommandDef_relayReport;
 
 /* RAK3172 commands */
 extern const CLI_Command_Definition_t xCommandDef_rakVersion;

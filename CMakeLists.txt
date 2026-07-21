@@ -48,6 +48,7 @@ include(FreeRTOS_Kernel_import.cmake)
 add_executable(LoRaWAN_RP2040_Dongle
     Src/main.c
     Src/relay.c
+    Src/relay_report.c
     Src/CLI/cli_main.c
     Src/CLI/cli_uart_drv.c
     Src/CLI/cli_commands.c

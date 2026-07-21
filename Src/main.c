@@ -21,6 +21,7 @@
 
 #include "rak3172.h"
 #include "relay.h"
+#include "relay_report.h"
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
@@ -50,15 +51,21 @@ static void prvLoRaRxCallback(const RAK3172_RxData_t *pxData)
         return;
     }
 
-    printf("[LoRaWAN] Downlink payload: %s\n", (const char *)pxData->data);
+    const char *payload = (const char *)pxData->data;
 
-    if(Relay_ProcessLoRaPayload((const char *)pxData->data, pxData->length))
+    printf("[LoRaWAN] Downlink payload: %s\n", payload);
+
+    if(RelayReport_ProcessLoRaPayload(payload, pxData->length))
+    {
+        printf("[LoRaWAN] Relay-report command applied\n");
+    }
+    else if(Relay_ProcessLoRaPayload(payload, pxData->length))
     {
         printf("[LoRaWAN] Relay command applied\n");
     }
     else
     {
-        printf("[LoRaWAN] Payload ignored (invalid relay command)\n");
+        printf("[LoRaWAN] Payload ignored (invalid command)\n");
     }
 }
 
@@ -88,6 +95,10 @@ static void lorawan_startup_task(void *params)
         if(RAK3172_Join(30000) == pdPASS)
         {
             printf("[LoRaWAN] Joined successfully, waiting for downlinks\n");
+
+            /* Enable the periodic relay-status uplink by default */
+            RelayReport_Start(LORAWAN_REPORT_INTERVAL_S);
+
             vTaskDelete(NULL);
             return;
         }
@@ -151,6 +162,9 @@ int main()
 
     /* Route received LoRa/LoRaWAN payloads to the relay handler */
     RAK3172_RegisterRxCallback(prvLoRaRxCallback);
+
+    /* Create the (disabled) periodic relay-status uplink routine */
+    RelayReport_Init();
 
     BaseType_t xResult;
 

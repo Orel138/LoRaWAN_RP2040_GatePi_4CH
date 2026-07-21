@@ -26,8 +26,9 @@ bool Relay_Get(uint8_t relay);
 
 /* Apply a LoRa/LoRaWAN payload of the form "<state><relay>" where the first
  * character is the target state ('0' = off, '1' = on) and the second is the
- * relay index ('1'..'4'). Example: "01" -> relay 1 off, "13" -> relay 3 on.
- * Returns true when a valid command was applied. */
+ * relay index ('1'..'4', or '5' meaning all relays).
+ * Examples: "01" -> relay 1 off, "13" -> relay 3 on, "15" -> all on,
+ * "05" -> all off. Returns true when a valid command was applied. */
 bool Relay_ProcessLoRaPayload(const char *payload, uint16_t length);
 
 #endif /* RELAY_H */

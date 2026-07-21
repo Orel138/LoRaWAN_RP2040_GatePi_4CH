@@ -274,8 +274,9 @@ void Task_CLI(void *pvParameters)
     FreeRTOS_CLIRegisterCommand(&xCommandDef_clear);
     FreeRTOS_CLIRegisterCommand(&xCommandDef_uptime);
 
-    /* Register relay command */
+    /* Register relay commands */
     FreeRTOS_CLIRegisterCommand(&xCommandDef_relay);
+    FreeRTOS_CLIRegisterCommand(&xCommandDef_relayReport);
 
     /* Register RAK3172 commands */
     FreeRTOS_CLIRegisterCommand(&xCommandDef_rakVersion);

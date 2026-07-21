@@ -65,14 +65,21 @@ bool Relay_ProcessLoRaPayload(const char *payload, uint16_t length)
         return false;
     }
 
-    /* Second character is the relay index ('1'..RELAY_COUNT) */
-    if((relayChar < '1') || (relayChar > (char)('0' + RELAY_COUNT)))
+    /* Second character is the relay index ('1'..RELAY_COUNT), or the special
+     * "all" index (RELAY_COUNT + 1, i.e. '5' on a 4-channel board). */
+    if((relayChar < '1') || (relayChar > (char)('0' + RELAY_COUNT + 1U)))
     {
         return false;
     }
 
     uint8_t relay = (uint8_t)(relayChar - '0');
     bool on = (stateChar == '1');
+
+    if(relay == (RELAY_COUNT + 1U))
+    {
+        Relay_SetAll(on);
+        return true;
+    }
 
     return Relay_Set(relay, on);
 }
